@@ -1,0 +1,2 @@
+# Docker-Db2_SSLconnect-encryptDB
+DockerHubイメージからSSL通信と透過的暗号DBを設定コンテナ作成
