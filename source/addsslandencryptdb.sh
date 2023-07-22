@@ -39,7 +39,9 @@ db2 "get dbm cfg" | grep -i KEYSTORE_LOCATION
 db2 "get dbm cfg" | grep -i KEYSTORE_TYPE
 db2 "update dbm cfg using KEYSTORE_TYPE PKCS12"
 db2 "get dbm cfg" | grep -i SSL_VERSIONS
-db2 "update dbm cfg using SSL_VERSIONS TLSV12"
+#db2 "update dbm cfg using SSL_VERSIONS TLSV12"
+# TLSv1.3はMod8から設定可
+db2 "update dbm cfg using SSL_VERSIONS TLSV12,TLSV13"
 db2 "get dbm cfg" | grep -i SSL_VERSIONS
 db2 "get dbm cfg" | grep -i SSL_SVR_KEYDB
 db2 "update dbm cfg using SSL_SVR_KEYDB /database/.keys/KeyStore.p12"
