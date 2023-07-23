@@ -47,12 +47,10 @@ docker-compose -f ./docker-compose.yaml exec db2 /bin/bash -c "su - tstdbi1"
 ```
 db2set -all
 ```
-下記の通りになってること 
-``` 
- [i] DB2_DYNAMIC_SSL_LABEL=ON  
- [i] DB2COMM=SSL,TCPIP  
- [g] DB2SYSTEM=<Container_ID>  
-```
+下記の通りになってること  
+> [i] DB2_DYNAMIC_SSL_LABEL=ON  
+> [i] DB2COMM=SSL,TCPIP  
+> [g] DB2SYSTEM=<Container_ID>  
 
 ## インスタンス設定確認
 ```
