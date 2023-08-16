@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile
     container_name: db2
     restart: always
-    #privileged: true
+    privileged: true
     ipc: host
     cap_add:
       - IPC_OWNER
