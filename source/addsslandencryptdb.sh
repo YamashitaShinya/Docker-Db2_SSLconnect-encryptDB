@@ -1,5 +1,8 @@
 #!/bin/bash
 
+#DB名設定(db2.envにて指定をし、自動作成する場合はコメントアウト)
+DBNAME=TSTDB
+
 #暗号通信ポート設定
 cp /etc/services /etc/services.db2ssl
 echo "db2s_${DB2INSTANCE}      50100/tcp" >> /etc/services
@@ -60,12 +63,15 @@ db2 "detach"
 #Db2インスタンス再起動
 su - ${DB2INSTANCE} -c "db2stop;ipclean;db2start"
 
-#DB透過的暗号化
-su - ${DB2INSTANCE} << EOF
-db2 "deactivate db $DBNAME"
-db2 "list db directory"
-db2 "drop db $DBNAME"
-db2 "list db directory"
-db2 "restore database $DBNAME from /database/backup taken at $(ls -1tr /database/backup | tail -1 | grep $DBNAME.0.${DB2INSTANCE}.*.001 | awk -F'.' '{print $5}') encrypt without rolling forward"
-db2 "list db directory"
-EOF
+#DB透過的暗号化(自動作成されたDBを透過的暗号リストアする場合コメントアウトを外すこと)
+# su - ${DB2INSTANCE} << EOF
+# db2 "deactivate db ${DBNAME}"
+# db2 "list db directory"
+# db2 "drop db ${DBNAME}"
+# db2 "list db directory"
+# db2 "restore database ${DBNAME} from /database/backup taken at $(ls -1tr /database/backup | tail -1 | grep ${DBNAME}.0.${DB2INSTANCE}.*.001 | awk -F'.' '{print $5}') encrypt without rolling forward"
+# db2 "list db directory"
+# EOF
+
+#透過的暗号サンプルDB作成
+su - ${DB2INSTANCE} -c "db2sampl -name ${DBNAME} -encrypt -verbose" 
