@@ -10,17 +10,20 @@ echo "db2s_${DB2INSTANCE}      50100/tcp" >> /etc/services
 #インスタンスプロファイル読み込み
 . /database/config/${DB2INSTANCE}/sqllib/db2profile
 
+#インストールディレクトリ確認
+DB2_DIR=$(ls -1d /opt/ibm/db2/*)
+
 #キーストア作成
 mkdir -m 770 /database/.keys
 chgrp db2iadm1 /database/.keys
-export KEYSTOREPASS=$(/opt/ibm/db2/V11.5/gskit/bin/gsk8capicmd_64 -random -create -length 16 -strong)
+export KEYSTOREPASS=$(${DB2_DIR}/gskit/bin/gsk8capicmd_64 -random -create -length 16 -strong)
 echo ${KEYSTOREPASS} > /database/.keys/KeyStore.pass
-/opt/ibm/db2/V11.5/gskit/bin/gsk8capicmd_64 -keydb -create -db /database/.keys/KeyStore.p12 -type pkcs12 -pw "${KEYSTOREPASS}" -stash
+${DB2_DIR}/gskit/bin/gsk8capicmd_64 -keydb -create -db /database/.keys/KeyStore.p12 -type pkcs12 -pw "${KEYSTOREPASS}" -stash
 chmod 660 /database/.keys/KeyStore.p12 /database/.keys/KeyStore.sth
 chgrp db2iadm1 /database/.keys/KeyStore.p12 /database/.keys/KeyStore.sth
 
 #暗号通信証明書作成
-/opt/ibm/db2/V11.5/gskit/bin/gsk8capicmd_64 -cert -create -db /database/.keys/KeyStore.p12 -stashed -label "$(uname -n)_cert_$(date +%Y%m%d)" -dn "CN=$(uname -n),OU=test,O=test,L=Minato,ST=Tokyo,C=JP -expire 730 -size 4096 -sigalg SHA512WithRSA"
+${DB2_DIR}/gskit/bin/gsk8capicmd_64 -cert -create -db /database/.keys/KeyStore.p12 -stashed -label "$(uname -n)_cert_$(date +%Y%m%d)" -dn "CN=$(uname -n),OU=test,O=test,L=Minato,ST=Tokyo,C=JP -expire 730 -size 4096 -sigalg SHA512WithRSA"
 
 #Db2環境変数設定
 
