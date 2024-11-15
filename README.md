@@ -4,12 +4,12 @@ IBM Cloud Container Registry(ICR)イメージからSSL通信と透過的暗号DB
 
 ## 参考
 - [dockerhub(ibmcom/db2)](https://hub.docker.com/r/ibmcom/db2)
-- [IBMDoc: Linux システムへの Db2 Community Edition Docker イメージのインストール](https://www.ibm.com/docs/ja/db2/11.5?topic=system-linux)
+- [IBMDoc: Linux システムへの Db2 Community Edition Docker イメージのインストール](https://www.ibm.com/docs/ja/db2/12.1?topic=system-linux)
 
 
 ## 前提
-- Db2バージョン: V11.5.8.0(v11.5 Mod8FP0)  
-***※バージョン変更したい場合はDockerfileのFROMセクションに記載のタグのバージョンを修正してください***
+- Db2バージョン: latest(最新のバージョン)  
+***※バージョン指定したい場合はDockerfileのFROMセクションに記載のタグのバージョンを修正してください***
 
 - WSL2環境のDockerを使用
 - Docker for Linux(Community Edition), docker-composeが導入済
